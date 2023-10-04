@@ -24,10 +24,8 @@ locals {
   ]
 }
 
-data "google_project" "project" {}
-
 resource "google_service_account" "tutorial_service_account" {
-  project = data.google_project.project.name
+  project = var.project_id
   account_id   = "tutorial-service-account"
   display_name = "tutorial-service-account"
 }
@@ -35,7 +33,7 @@ resource "google_service_account" "tutorial_service_account" {
 resource "google_project_iam_member" "service_account_roles" {
   for_each = toset(local.tutorial_service_account_roles)
 
-  project = data.google_project.project.name
+  project = var.project_id
   member  = "serviceAccount:${google_service_account.tutorial_service_account.email}"
   role   = each.value
 }
@@ -61,7 +59,6 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
   role          = "roles/owner"
 
   members = [
-    "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
     "serviceAccount:${google_service_account.tutorial_service_account.email}",
   ]
 }
@@ -71,7 +68,6 @@ resource "google_kms_key_ring_iam_binding" "key_ring" {
   role        = "roles/owner"
 
   members = [
-    "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
     "serviceAccount:${google_service_account.tutorial_service_account.email}",
   ]
 }
