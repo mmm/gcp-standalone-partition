@@ -74,6 +74,7 @@ resource "google_compute_instance" "storage-node" {
 
   network_interface {
     subnetwork = var.subnet
+    subnetwork_project = var.project_id
   }
 
   metadata_startup_script = templatefile("provision.sh.tmpl", {})
