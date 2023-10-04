@@ -20,8 +20,8 @@ locals {
 }
 
 resource "google_compute_instance" "dev" {
-  count        = 1
-  name         = "dev-${count.index}"
+  count        = 2
+  name         = "worker-node-${count.index}"
   machine_type = local.default_instance_type
   project      = var.project_id
   zone         = var.zone
