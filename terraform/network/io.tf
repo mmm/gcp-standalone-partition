@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "project" {
-  default = ""
+variable "project_id" {
+  default = "my-cool-project-id"
 }
 
 variable "region" {
