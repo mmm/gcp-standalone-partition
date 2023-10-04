@@ -13,6 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+variable "project_id" {
+  default = "my-cool-project-id"
+}
+
 variable "zone" {
   default = "us-central1-c"
 }
