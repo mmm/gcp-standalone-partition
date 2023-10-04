@@ -57,7 +57,6 @@ resource "google_kms_crypto_key" "tutorial_cmek" {
 }
 
 resource "google_kms_crypto_key_iam_binding" "crypto_key" {
-  project = var.project_id
   crypto_key_id = google_kms_crypto_key.tutorial_cmek.id
   role          = "roles/owner"
 
@@ -67,7 +66,6 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
 }
 
 resource "google_kms_key_ring_iam_binding" "key_ring" {
-  project = var.project_id
   key_ring_id = google_kms_key_ring.tutorial_keyring.id
   role        = "roles/owner"
 
