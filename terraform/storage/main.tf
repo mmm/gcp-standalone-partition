@@ -22,6 +22,7 @@ locals {
 }
 
 resource "google_compute_disk" "tools" {
+  project = var.project_id
   name  = "tools-volume"
   type  = "pd-ssd"
   zone  = var.zone
@@ -33,6 +34,7 @@ resource "google_compute_disk" "tools" {
 }
 
 resource "google_compute_disk" "home" {
+  project = var.project_id
   name  = "home-volume"
   type  = "pd-ssd"
   zone  = var.zone
@@ -47,6 +49,7 @@ resource "google_compute_instance" "storage-node" {
   count        = 1
   name         = "storage-node-0"
   machine_type = local.storage_machine_type
+  project      = var.project_id
   zone         = var.zone
 
   tags = var.tags
