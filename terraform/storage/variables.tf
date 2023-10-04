@@ -25,6 +25,10 @@ variable "network" {
   default = "default"
 }
 
+variable "subnet" {
+  default = "default"
+}
+
 variable "tags" {
   default = []
 }
