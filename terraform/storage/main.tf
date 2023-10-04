@@ -73,7 +73,6 @@ resource "google_compute_instance" "storage-node" {
   }
 
   network_interface {
-    network = var.network
     subnetwork = var.subnet
   }
 
