@@ -16,6 +16,7 @@
 resource "google_compute_network" "tutorial" {
   name                    = var.network
   auto_create_subnetworks = false
+  project                 = var.project
 }
 
 resource "google_compute_subnetwork" "tutorial" {

@@ -13,6 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+variable "project" {
+  default = ""
+}
+
 variable "region" {
   default = "us-central1"
 }
