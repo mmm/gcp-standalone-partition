@@ -21,6 +21,6 @@ output "tutorial-service-account-email" {
   value = google_service_account.tutorial_service_account.email
 }
 
-output "tutorial-cmek-id" {
-  value = google_kms_crypto_key.tutorial_cmek.id
-}
+# output "tutorial-cmek-id" {
+#   value = google_kms_crypto_key.tutorial_cmek.id
+# }

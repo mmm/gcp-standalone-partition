@@ -38,37 +38,37 @@ resource "google_project_iam_member" "service_account_roles" {
   role   = each.value
 }
 
-resource "google_kms_key_ring" "tutorial_keyring" {
-  project = var.project_id
-  name     = "tutorial-keyring"
-  location = "global"
-}
+#resource "google_kms_key_ring" "tutorial_keyring" {
+#  project = var.project_id
+#  name     = "tutorial-keyring"
+#  location = "global"
+#}
 
-resource "google_kms_crypto_key" "tutorial_cmek" {
-  name            = "tutorial-cmek"
-  key_ring        = google_kms_key_ring.tutorial_keyring.id
-  rotation_period = "100000s"
+#resource "google_kms_crypto_key" "tutorial_cmek" {
+#  name            = "tutorial-cmek"
+#  key_ring        = google_kms_key_ring.tutorial_keyring.id
+#  rotation_period = "100000s"
 
-  lifecycle {
-    #prevent_destroy = true
-    prevent_destroy = false
-  }
-}
+#  lifecycle {
+#    #prevent_destroy = true
+#    prevent_destroy = false
+#  }
+#}
 
-resource "google_kms_crypto_key_iam_binding" "crypto_key" {
-  crypto_key_id = google_kms_crypto_key.tutorial_cmek.id
-  role          = "roles/owner"
+#resource "google_kms_crypto_key_iam_binding" "crypto_key" {
+#  crypto_key_id = google_kms_crypto_key.tutorial_cmek.id
+#  role          = "roles/owner"
 
-  members = [
-    "serviceAccount:${google_service_account.tutorial_service_account.email}",
-  ]
-}
+#  members = [
+#    "serviceAccount:${google_service_account.tutorial_service_account.email}",
+#  ]
+#}
 
-resource "google_kms_key_ring_iam_binding" "key_ring" {
-  key_ring_id = google_kms_key_ring.tutorial_keyring.id
-  role        = "roles/owner"
+#resource "google_kms_key_ring_iam_binding" "key_ring" {
+#  key_ring_id = google_kms_key_ring.tutorial_keyring.id
+#  role        = "roles/owner"
 
-  members = [
-    "serviceAccount:${google_service_account.tutorial_service_account.email}",
-  ]
-}
+#  members = [
+#    "serviceAccount:${google_service_account.tutorial_service_account.email}",
+#  ]
+#}
