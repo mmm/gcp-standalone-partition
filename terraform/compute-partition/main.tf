@@ -14,13 +14,18 @@
 # limitations under the License.
 
 locals {
-  #master_os_image = "ubuntu-os-cloud/ubuntu-2204-lts"
-  master_os_image = "debian-cloud/debian-11"
+  num_compute_instances = 2
   default_instance_type = "n2-standard-4"
+
+  #compute_os_image = "ubuntu-os-cloud/ubuntu-2204-lts"
+  compute_os_image = "debian-cloud/debian-11"
+  # or more generally in the form of projects/{project}/global/images/family/{family}
+  #compute_os_image = "projects/cloud-hpc-image-public/global/images/family/hpc-centos-7"
+  #compute_os_image = "projects/cloud-hpc-image-public/global/images/family/hpc-rocky-linux-8"
 }
 
 resource "google_compute_instance" "dev" {
-  count        = 2
+  count        = local.num_compute_instances
   name         = "worker-node-${count.index}"
   machine_type = local.default_instance_type
   project      = var.project_id
@@ -30,8 +35,7 @@ resource "google_compute_instance" "dev" {
 
   boot_disk {
     initialize_params {
-      image = local.master_os_image
-
+      image = local.compute_os_image
     }
   }
 
@@ -47,7 +51,7 @@ resource "google_compute_instance" "dev" {
   network_interface {
     subnetwork = var.subnet
     subnetwork_project = var.project_id
-    #access_config {} # Ephemeral IP
+    #access_config {} # public ephemeral IP... comment this out for private-only IPs
   }
 
   #metadata_startup_script = file("provision.sh")
