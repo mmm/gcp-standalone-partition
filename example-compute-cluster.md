@@ -144,6 +144,25 @@ command will display the names of the network and subnetwork created for the
 tutorial.
 
 
+## Create some NFS volumes
+
+NFS volumes are common in compute cluster scenarios.  Here we create them just
+as an example as well as potentially providing convenience for infrastructure
+development and testing.  E.g., shared home directories on compute nodes.
+
+Create a standalone storage server:
+
+```bash
+cd ../storage
+terraform init
+terraform plan
+terraform apply
+```
+
+Note the output IP addresses reported from the `apply` as you'll need them
+in the next step to configure the compute cluster.
+
+
 ## Create a cluster of compute nodes
 
 Create an example static cluster of compute nodes.

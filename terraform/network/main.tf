@@ -16,11 +16,9 @@
 resource "google_compute_network" "tutorial" {
   name                    = var.network
   auto_create_subnetworks = false
-  project                 = var.project_id
 }
 
 resource "google_compute_subnetwork" "tutorial" {
-  project                  = var.project_id
   name                     = var.subnet
   ip_cidr_range            = var.cidr
   region                   = var.region
@@ -29,14 +27,12 @@ resource "google_compute_subnetwork" "tutorial" {
 }
 
 resource "google_compute_router" "tutorial" {
-  project = var.project_id
   name    = var.network
   network = google_compute_network.tutorial.id
   region  = var.region
 }
 
 resource "google_compute_router_nat" "tutorial" {
-  project                            = var.project_id
   name                               = var.network
   router                             = google_compute_router.tutorial.name
   region  = var.region
@@ -52,7 +48,6 @@ resource "google_compute_router_nat" "tutorial" {
 }
 
 resource "google_compute_firewall" "tutorial-iap-access" {
-  project = var.project_id
   name    = "${var.network}-iap-access"
   network = google_compute_network.tutorial.id
 
@@ -65,7 +60,6 @@ resource "google_compute_firewall" "tutorial-iap-access" {
 }
 
 resource "google_compute_firewall" "tutorial-allow-internal" {
-  project     = var.project_id
   name        = "${var.network}-allow-internal"
   network     = google_compute_network.tutorial.id
   description = "Allow internal traffic on the tutorial network"
