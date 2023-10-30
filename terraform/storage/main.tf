@@ -56,6 +56,7 @@ resource "google_compute_instance" "storage-node" {
       image = local.storage_os_image
 
     }
+    kms_key_self_link = var.cmek_self_link
   }
   attached_disk {
     source = google_compute_disk.tools.id
@@ -76,8 +77,15 @@ resource "google_compute_instance" "storage-node" {
   metadata_startup_script = templatefile("provision.sh.tmpl", {})
 
   service_account {
+    email = var.service_account
     scopes = ["userinfo-email", "compute-ro", "storage-full"]
     #scopes = ["cloud-platform"]  # too permissive for production
+  }
+
+  shielded_instance_config {
+    enable_secure_boot = true
+    enable_vtpm = true
+    enable_integrity_monitoring = true
   }
 
   lifecycle {

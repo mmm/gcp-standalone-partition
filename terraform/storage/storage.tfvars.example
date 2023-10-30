@@ -1,5 +1,5 @@
 #
-# Copyright 2023 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,34 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "zone" {
-  default = "us-central1-c"
-}
-
-variable "tags" {
-  default = []
-}
-
-variable "network" {
-  default = "default"
-}
-
-variable "subnet" {
-  default = "default"
-}
-
-variable "service_account" {
-  default = null
-}
-
-variable "cmek_self_link" {
-  default = null
-}
-
-variable "home_volume_ip" {
-  default = ""
-}
-
-variable "tools_volume_ip" {
-  default = ""
-}
+cmek_self_link = "<my_key_self_link>"
+service_account =  "<my_service_account_email>"

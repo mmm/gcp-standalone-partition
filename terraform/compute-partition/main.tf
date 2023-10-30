@@ -35,6 +35,7 @@ resource "google_compute_instance" "dev" {
     initialize_params {
       image = local.compute_os_image
     }
+    kms_key_self_link = var.cmek_self_link
   }
 
   # cannot stop instances that have nvme attachments, so just get rid of this
@@ -58,7 +59,14 @@ resource "google_compute_instance" "dev" {
   })
 
   service_account {
+    email = var.service_account
     #scopes = ["userinfo-email", "compute-ro", "storage-full"]
     scopes = ["cloud-platform"]  # too permissive for production
+  }
+
+  shielded_instance_config {
+    enable_secure_boot = true
+    enable_vtpm = true
+    enable_integrity_monitoring = true
   }
 }

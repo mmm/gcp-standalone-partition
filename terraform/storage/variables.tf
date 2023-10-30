@@ -28,3 +28,11 @@ variable "subnet" {
 variable "tags" {
   default = []
 }
+
+variable "service_account" {
+  default = null
+}
+
+variable "cmek_self_link" {
+  default = null
+}
