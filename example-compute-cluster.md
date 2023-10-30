@@ -1,3 +1,5 @@
+# Draft - this is still WIP
+
 # Example - Running a cluster of compute nodes on Google Cloud
 
 Here are some example template snippets used to spin up Google Cloud resources
@@ -144,23 +146,55 @@ command will display the names of the network and subnetwork created for the
 tutorial.
 
 
-## Create some NFS volumes
+## Create some storage volumes
 
 NFS volumes are common in compute cluster scenarios.  Here we create them just
 as an example as well as potentially providing convenience for infrastructure
 development and testing.  E.g., shared home directories on compute nodes.
 
-Create a standalone storage server:
+In this part of the example we'll need to use outputs from the `setup` steps 
+to specific terraform variables in a `tfvars` file.
+
+Change to the storage server example directory
 
 ```bash
 cd ../storage
-terraform init
-terraform plan
-terraform apply
 ```
 
-Note the output IP addresses reported from the `apply` as you'll need them
-in the next step to configure the compute cluster.
+Copy over the template variables
+
+```bash
+cp storage.tfvars.example storage.tfvars
+```
+
+Edit `storage.tfvars` to set some missing variables.
+
+You need to edit several fields:
+
+
+### Edit the CMEK used to encrypt disks and storage
+
+Uncomment
+```terraform
+# cmek_self_link = "projects/<project>/locations/global/keyRings/tutorial-keyring/cryptoKeys/tutorial-cmek"
+```
+and set this variable to the value output from the setup step above.
+
+
+### Edit Service Account used for the various compute node types
+
+Uncomment the following variables throughout the file
+```terraform
+# compute_node_service_account = "default"
+```
+and set the value of each to the value output from the setup step above.
+
+Note the output IP addresses reported from the `apply`.
+
+You could now use those terraform outputs to set terraform variables in the
+next steps just like we did in this step.  However, we'll take a bit of
+a shortcut in the next step and access outputs directly from the terraform
+state for previous steps.
 
 
 ## Create a cluster of compute nodes
@@ -183,14 +217,6 @@ Edit `compute.tfvars` to set some missing variables.
 
 You need to edit several fields:
 
-
-### Edit the project
-
-Near the top, the project name (required) and the zone should match everywhere
-
-```terraform
-project      = "<project>" # replace this with your GCP project name
-```
 
 ### Edit the CMEK used to encrypt disks and storage
 
