@@ -144,12 +144,11 @@ command will display the names of the network and subnetwork created for the
 tutorial.
 
 
-## Create a Slurm cluster
+## Create a cluster of compute nodes
 
-Create an example slurm cluster with a single `debug` partition that scales
-dynamically in GCP.
+Create an example static cluster of compute nodes.
 
-Change to the slurm cluster example directory
+Change to the compute cluster example directory
 
 ```bash
 cd terraform/compute-partition
@@ -183,7 +182,7 @@ Uncomment
 and set this variable to the value output from the setup step above.
 
 
-### Edit Service Account used for the various Slurm node types
+### Edit Service Account used for the various compute node types
 
 Uncomment the following variables throughout the file
 ```terraform
