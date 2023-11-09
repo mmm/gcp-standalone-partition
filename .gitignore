@@ -4,7 +4,7 @@ tmp
 
 .terraform
 *.tfvars
-terraform.tfstate
+terraform.tfstate*
 
 backend.conf
 
