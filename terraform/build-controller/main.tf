@@ -14,18 +14,16 @@
 # limitations under the License.
 
 locals {
-  num_build_controller_instances = 1
   default_instance_type = "n2-standard-4"
 
-  #compute_os_image = "ubuntu-os-cloud/ubuntu-2204-lts"
   compute_os_image = "debian-cloud/debian-11"
+  #compute_os_image = "ubuntu-os-cloud/ubuntu-2204-lts"
   # or more generally in the form of projects/{project}/global/images/family/{family}
   #compute_os_image = "projects/cloud-hpc-image-public/global/images/family/hpc-rocky-linux-8"
 }
 
 resource "google_compute_instance" "build_controller" {
-  count        = local.num_build_controller_instances
-  name         = "build-controller-${count.index}"
+  name         = "build-controller"
   machine_type = local.default_instance_type
   zone         = var.zone
 
@@ -38,19 +36,14 @@ resource "google_compute_instance" "build_controller" {
     kms_key_self_link = var.cmek_self_link
   }
 
-  # cannot stop instances that have nvme attachments, so just get rid of this
-  # scratch_disk {
-  #   interface = "NVME" # Note: check if your OS image requires additional drivers or config to optimize NVME performance
-  # }
-
   metadata = {
     enable-oslogin = "TRUE"
   }
 
   network_interface {
+    #access_config {} # public ephemeral IP... comment this out for private-only IPs
     network = var.network
     subnetwork = var.subnet
-    #access_config {} # public ephemeral IP... comment this out for private-only IPs
   }
 
   #metadata_startup_script = file("provision.sh")
