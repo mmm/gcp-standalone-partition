@@ -22,6 +22,16 @@ locals {
     "roles/logging.logWriter",
     "roles/monitoring.metricWriter",
   ]
+  builder_service_account_roles = [
+    "roles/compute.admin",
+    "roles/compute.instanceAdmin.v1",
+    "roles/iam.serviceAccountAdmin",
+    "roles/iam.serviceAccountTokenCreator",
+    "roles/iam.serviceAccountUser",
+    "roles/compute.storageAdmin",
+    "roles/logging.logWriter",
+    "roles/monitoring.metricWriter",
+  ]
 }
 
 data "google_project" "project" {}
@@ -72,3 +82,17 @@ resource "google_project_iam_member" "service_account_roles" {
 #    "serviceAccount:${google_service_account.tutorial_service_account.email}",
 #  ]
 #}
+
+resource "google_service_account" "builder_service_account" {
+  account_id   = "builder-service-account"
+  display_name = "builder-service-account"
+}
+
+resource "google_project_iam_member" "builder_service_account_roles" {
+  for_each = toset(local.builder_service_account_roles)
+
+  project = data.google_project.project.name
+  member  = "serviceAccount:${google_service_account.builder_service_account.email}"
+  role   = each.value
+}
+
