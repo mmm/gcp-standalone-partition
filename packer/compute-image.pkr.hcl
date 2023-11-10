@@ -22,36 +22,30 @@ variable "builder_sa" {
 }
 
 source "googlecompute" "gcp_ubuntu" {
-  disk_size           = "100"
-  machine_type        = "n2-standard-4"
   project_id          = var.project_id
-  source_image_family = "ubuntu-2204-lts"
-  #ssh_username        = "packer"
-  ssh_username        = "ubuntu"
   zone                = "us-central1-f"
+  source_image_family = "ubuntu-2204-lts"
+  machine_type        = "n2-standard-4"
   network             = "tutorial"
   subnetwork          = "tutorial"
   omit_external_ip    = true
   use_internal_ip     = true
+  disk_size           = "100"
+  ssh_username        = "ubuntu"
   impersonate_service_account = var.builder_sa
-  #startup_script_file = "provision.sh"
-  #wrap_startup_script = false
-  #communicator        = "none"
 }
 
 build {
-  name                = "gnome"
+  name                = "compute-image"
 
   source "source.googlecompute.gcp_ubuntu" {
-    image_family        = "ubuntu-2204-gnome-crd"
-    image_name          = "ubuntu-2204-gnome-crd-{{timestamp}}"
-    image_description   = "gnome crd workstation image"
+    image_family        = "ubuntu-2204-compute-image"
+    image_name          = "ubuntu-2204-compute-image-{{timestamp}}"
+    image_description   = "compute image"
   }
 
   provisioner "shell" {
-    execute_command = "chmod +x {{ .Path }}; sudo bash -c 'DESKTOP=gnome {{ .Vars }} {{ .Path }}'"
+    execute_command = "chmod +x {{ .Path }}; sudo bash -c '{{ .Vars }} {{ .Path }}'"
     scripts         = fileset(".", "scripts-ubuntu-22.04/*")
   }
-  # provision directly from he startup script when using private-only networks
-
 }
