@@ -4,9 +4,13 @@ tmp
 
 .terraform
 *.tfvars
+*.tfvars.hcl
 terraform.tfstate*
 
 backend.conf
+
+*.pkrvars
+*pkrvars.hcl
 
 *.tar.gz
 
@@ -16,4 +20,3 @@ discourse
 *.pyc
 *.log
 *.pem
-packer/variables.json
