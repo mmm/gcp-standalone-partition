@@ -162,16 +162,55 @@ cd gcp-standalone-partition/packer
 
 ## Use packer to build a VM image
 
-Now, from the build controller, run packer:
+Now, from the build controller, let's set up our packer variables
+```
+cp compute-image.pkrvars.example compute-image.pkrvars
+```
+and edit `compute-image.pkrvars` to reflect the current config
+for `project_id` and `builder_sa`.
+
+Next, run packer:
 ```
 packer build compute-image.pkr.hcl -var-file compute-image.pkrvars
 ```
+
+Edit the packer config `compute-image.pkr.hcl` and the build
+scripts to customize them for your compute image needs and
+repeat the build above.
+
+This should show you the image name in the packer output, but you can
+keep an eye on these via:
+```
+gcloud compute images list | grep <my_cool_project>
+```
+When spinning up VM instances to test your image, it's often easier
+to use image project and family config instead of the image name
+with the timestamp, but ymmv.
 
 
 ## Cleaning up
 
 To avoid incurring charges to your Google Cloud Platform account for the
 resources used in this tutorial:
+
+### Park the build controller when it's not in use
+
+When you're not building images, you can minimize wasted spend by stopping the
+build controller
+```
+gcloud compute instances stop build-controller --zone <my_zone>
+```
+and then just restart it
+```
+gcloud compute instances start build-controller --zone <my_zone>
+```
+later when you need it again.
+
+While VM instances are stopped, you're only charged minimally for things like
+bootdisk storage.
+
+Of course, when you're finished with these resources, you'll want to actually
+terminate and destroy them...
 
 ### Delete the project using the GCP Cloud Console
 
