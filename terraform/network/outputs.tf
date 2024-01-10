@@ -13,34 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "project_id" {
-  default = "my-cool-project-id"
-}
-
-variable "region" {
-  default = "us-central1"
-}
-
-variable "zone" {
-  default = "us-central1-f"
-}
-
-variable "tags" {
-  default = []
-}
-
-variable "network" {
-  default = "tutorial"
-}
-
-variable "subnet" {
-  default = "tutorial"
-}
-
-variable "cidr" {
-  default = "10.2.1.0/24"
-}
-
 output "network_id" {
   value = google_compute_network.tutorial.id
 }
