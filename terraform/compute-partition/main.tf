@@ -18,7 +18,7 @@ locals {
   default_instance_type = "n2-standard-4"
 
   #compute_os_image = "ubuntu-os-cloud/ubuntu-2204-lts"
-  compute_os_image = "debian-cloud/debian-11"
+  compute_os_image = "debian-cloud/debian-12"
   # or more generally in the form of projects/{project}/global/images/family/{family}
   #compute_os_image = "projects/cloud-hpc-image-public/global/images/family/hpc-centos-7"
   #compute_os_image = "projects/cloud-hpc-image-public/global/images/family/hpc-rocky-linux-8"
